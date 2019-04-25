@@ -2,12 +2,12 @@
 Description=AdGuardHome
 
 [Service]
-User=adguardhome
-Group=adguardhome
+User={{ adguardhome_user }}
+Group={{ adguardhome_group }}
 ProtectSystem=strict
 ProtectHome=true
-ReadWritePaths=/etc/adguardhome /var/adguardhome
-ExecStart=/opt/adguardhome/AdGuardHome -w /var/adguardhome -c /etc/adguardhome/config.yml
+ReadWritePaths={{ adguardhome_config_path }} {{ adguardhome_data_path }}
+ExecStart={{ adguardhome_install_path }}/AdGuardHome -w {{ adguardhome_data_path }} -c {{ adguardhome_config_path }}/config.yml
 AmbientCapabilities=CAP_NET_BIND_SERVICE
 NoNewPrivileges=true
 PrivateTmp=true

@@ -2,45 +2,14 @@
 - name: load architecture-dependent configuration
   include_vars:
     file: "vars/config_{{ ansible_architecture }}.yml"
-- name: download adguardhome
-  get_url:
-    url: "{{ url_adguardhome }}"
-    dest: "{{ tmp_adguardhome }}"
-    mode: 0400
-    force: yes
-- name: create adguardhome group
-  group:
-    name: adguardhome
-    system: yes
-- name: create adguardhome user
-  user:
-    name: adguardhome
-    create_home: no
-    shell: /sbin/nologin
-    group: adguardhome
-    system: yes
-- name: create directories for adguardhome
-  file:
-    name: "{{ item }}"
-    state: directory
-    owner: adguardhome
-    group: adguardhome
-  with_items:
-    - /opt/adguardhome
-    - /etc/adguardhome
-    - /var/adguardhome
-- name: install adguardhome
-  unarchive:
-    dest: /opt/adguardhome
-    owner: adguardhome
-    group: adguardhome
-    remote_src: yes
-    src: "{{ tmp_adguardhome }}"
-    extra_opts: ["--strip=1"]
-  notify: restart and enable adguardhome service
-- name: copy adguardhome service unit
-  copy:
-    src: files/etc/systemd/system/adguardhome.service
-    dest: /etc/systemd/system/adguardhome.service
-    force: yes
-  notify: restart and enable adguardhome service
+
+- import_tasks: get-version.yml
+- import_tasks: stop-services.yml
+  when: install_adguardhome
+- import_tasks: install-adguardhome.yml
+  when: install_adguardhome
+- import_tasks: start-services.yml
+  when: install_adguardhome
+- import_tasks: cleanup.yml
+  when: install_adguardhome
+

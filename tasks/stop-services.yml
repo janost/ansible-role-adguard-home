@@ -1,0 +1,6 @@
+---
+- name: stop adguardhome
+  systemd:
+    state: stopped
+    name: adguardhome
+  ignore_errors: yes

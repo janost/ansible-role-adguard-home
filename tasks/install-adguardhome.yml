@@ -1,0 +1,43 @@
+---
+- name: download adguardhome
+  get_url:
+    url: "{{ url_adguardhome }}"
+    dest: "{{ tmp_adguardhome }}"
+    mode: 0400
+    force: yes
+- name: create adguardhome group
+  group:
+    name: "{{ adguardhome_group }}"
+    system: yes
+- name: create adguardhome user
+  user:
+    name: "{{ adguardhome_user }}"
+    create_home: no
+    shell: /sbin/nologin
+    group: "{{ adguardhome_group }}"
+    system: yes
+- name: create directories for adguardhome
+  file:
+    name: "{{ item }}"
+    state: directory
+    owner: "{{ adguardhome_user }}"
+    group: "{{ adguardhome_group }}"
+  with_items:
+    - "{{ adguardhome_install_path }}"
+    - "{{ adguardhome_config_path }}"
+    - "{{ adguardhome_data_path }}"
+- name: install adguardhome
+  unarchive:
+    dest: "{{ adguardhome_install_path }}"
+    owner: "{{ adguardhome_user }}"
+    group: "{{ adguardhome_group }}"
+    remote_src: yes
+    src: "{{ tmp_adguardhome }}"
+    extra_opts: ["--strip=1"]
+- name: copy adguardhome service unit
+  template:
+    src: templates/etc/systemd/system/adguardhome.service
+    dest: /etc/systemd/system/adguardhome.service
+    force: yes
+- name: write adguardhome version
+  shell: "echo \"{{ adguardhome_version }}\" > {{ adguardhome_install_path }}/version"

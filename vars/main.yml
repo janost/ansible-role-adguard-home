@@ -1,2 +1,6 @@
 ---
-# vars file for ansible-role-adguard-home
+adguardhome_install_path: /opt/adguardhome
+adguardhome_config_path: /etc/adguardhome
+adguardhome_data_path: /var/adguardhome
+adguardhome_user: adguardhome
+adguardhome_group: adguardhome

@@ -1,2 +1,2 @@
 ---
-url_adguardhome: https://github.com/AdguardTeam/AdGuardHome/releases/download/v0.94/AdGuardHome_v0.94_linux_amd64.tar.gz
+url_adguardhome: https://github.com/AdguardTeam/AdGuardHome/releases/download/{{ adguardhome_version }}/AdGuardHome_{{ adguardhome_version }}_linux_amd64.tar.gz

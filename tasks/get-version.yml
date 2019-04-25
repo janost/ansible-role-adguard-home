@@ -1,0 +1,14 @@
+---
+- name: define facts
+  set_fact:
+    install_adguardhome: true
+
+- name: get installed adguardhome version
+  shell: "cat \"{{ adguardhome_install_path }}/version\""
+  register: adguardhome_installed_version
+  ignore_errors: yes
+- name: decide if adguardhome install is needed
+  set_fact:
+    install_adguardhome: false
+  when: adguardhome_version in adguardhome_installed_version.stdout
+  ignore_errors: yes

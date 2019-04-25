@@ -1,0 +1,7 @@
+---
+- name: restart adguardhome
+  systemd:
+    state: restarted
+    enabled: yes
+    daemon_reload: yes
+    name: adguardhome
