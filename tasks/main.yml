@@ -10,6 +10,3 @@
   when: install_adguardhome
 - import_tasks: start-services.yml
   when: install_adguardhome
-- import_tasks: cleanup.yml
-  when: install_adguardhome
-

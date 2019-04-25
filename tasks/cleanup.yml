@@ -1,8 +1,0 @@
----
-- name: delete temp files
-  file:
-    path: "{{ item }}"
-    state: absent
-  with_items:
-    - "{{ tmp_adguardhome }}"
-  ignore_errors: yes
