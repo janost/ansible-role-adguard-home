@@ -2,25 +2,36 @@
 Description=AdGuardHome
 
 [Service]
-User={{ adguardhome_user }}
-Group={{ adguardhome_group }}
+ExecStart=/opt/adguardhome/AdGuardHome -w /var/lib/adguardhome -c /etc/adguardhome/config.yml
+ConfigurationDirectory=adguardhome
+StateDirectory=adguardhome
+BindPaths=/etc/adguardhome /var/lib/adguardhome
+BindReadOnlyPaths=/etc/hosts /etc/ssl /usr/share/ca-certificates /opt/adguardhome
+DynamicUser=yes
 ProtectSystem=strict
 ProtectHome=true
-ReadWritePaths={{ adguardhome_config_path }} {{ adguardhome_data_path }}
-ExecStart={{ adguardhome_install_path }}/AdGuardHome -w {{ adguardhome_data_path }} -c {{ adguardhome_config_path }}/config.yml
 AmbientCapabilities=CAP_NET_BIND_SERVICE
-NoNewPrivileges=true
-PrivateTmp=true
-PrivateDevices=true
 DevicePolicy=closed
-ProtectKernelTunables=true
-ProtectKernelModules=true
-ProtectControlGroups=true
 LockPersonality=true
 MemoryDenyWriteExecute=true
-RestrictRealtime=true
+NoNewPrivileges=true
+PrivateDevices=true
+PrivateMounts=true
+PrivateTmp=true
+PrivateUsers=false
+ProtectClock=true
+ProtectControlGroups=true
+ProtectHostname=true
+ProtectKernelLogs=true
+ProtectKernelModules=true
+ProtectKernelTunables=true
 RemoveIPC=true
 RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK
+RestrictNamespaces=true
+RestrictRealtime=true
+RestrictSUIDSGID=true
+SystemCallArchitectures=native
+TemporaryFileSystem=/etc /boot /var /media /mnt /opt /srv
 
 [Install]
 WantedBy=multi-user.target
